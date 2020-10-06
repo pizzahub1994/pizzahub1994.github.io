@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>手机号查询</title>
+		<link rel="stylesheet" type="text/css" href="../css/page.css" />
+	</head>
+	<body>
+		<h3 class="title">手机号归属查询</h3>
+		<input class="phonenumber" type="text" placeholder="请在此输入"/>
+		<button class="button" type="button">查询</button>
+		<p class="shouji">手机号：<span></span></p>
+		<p class="areacode">区号：<span></span></p>
+	    <p class="cardtype">卡类型：<span></span></p>
+	    <p class="area">地区：<span></span></p>
+	    <p class="company">运营商：<span></span></p>
+	</body>
+	<script type="text/javascript" src="jquery-1.11.0.js" ></script>
+	<script type="text/javascript">
+		$(document).ready(function(){
+			$(".button").click(function(){
+				var pn=$(".phonenumber").val();
+				$.ajax({
+					data:{
+						"shouji":pn,
+						"appkey": "ba7209544ba8ca61" 
+					},
+					type:"get",
+					url:"https://api.jisuapi.com/shouji/query",
+					async:true,
+					dataType:"JSONP",
+					success:function(rrs){
+						console.log(rrs);
+						$(".shouji>span").text(rrs.result.shouji);
+						$(".areacode>span").text(rrs.result.areacode);
+						$(".cardtype>span").text(rrs.result.cardtype);
+						$(".area>span").text(rrs.result.province+" "+rrs.result.city);
+						$(".company>span").text(rrs.result.company);
+					
+					},
+					error:function(e){
+						console.log(e);
+					}
+					
+				});
+			})
+		})
+	</script>
+</html>
